@@ -1,5 +1,7 @@
 # <font color=red>JAVA 新技术</font>
 
+[toc]
+
 ## <font color=blue>响应式编程</font>
 
 - 简介
@@ -183,7 +185,9 @@
   - JAVA 14 增强了对 NullPointerException 异常的处理，可以显示详细的信息，错误消息可以明确的指出为空的对象
   - 这个功能需要通过选项-XX:+ShowCodeDetailsInExceptionMessages 启用
 - **记录类型（Record Type，预览功能）**
+
   - 记录类型的作用类似于 Kotlin 中的数据类（data class)和 Scala 中的 case class
+
   ```java
   public class Test {
 
@@ -197,6 +201,7 @@
 
   }
   ```
+
 - **正式引入 JDK 12 的 Switch 表达式**
 - **正式引入 JDK 13 的 Text Blocks（文本框）功能**
 - **ZGC 的 macOS 支持和 Windows 支持**

@@ -1,6 +1,14 @@
 # <font color=red>JAVA 新技术</font>
 
-[toc]
+- [<font color=red>JAVA 新技术</font>](#font-colorredjava-新技术font)
+  - [<font color=blue>响应式编程</font>](#font-colorblue响应式编程font)
+  - [<font color=blue>JAVA 8（LTS 版本（长期支持版本））</font>](#font-colorbluejava-8lts-版本长期支持版本font)
+  - [<font color=blue>JAVA 9</font>（Jigsaw、JShell、Reactive Streams）](#font-colorbluejava-9fontjigsawjshellreactive-streams)
+  - [<font color=blue>JAVA 10</font>（局部变量类型推断、G1 的并行 Full GC、ThreadLocal 握手机制）](#font-colorbluejava-10font局部变量类型推断g1-的并行-full-gcthreadlocal-握手机制)
+  - [<font color=blue>JAVA 11（LTS 版本（长期支持版本））</font>（ZGC、Epsilon、增强 var）](#font-colorbluejava-11lts-版本长期支持版本fontzgcepsilon增强-var)
+  - [<font color=blue>JAVA 12</font>（Switch 表达式）](#font-colorbluejava-12fontswitch-表达式)
+  - [<font color=blue>JAVA 13</font>（Text Blocks、Dynamic CDS Archives）](#font-colorbluejava-13fonttext-blocksdynamic-cds-archives)
+  - [<font color=blue>JAVA 14</font>（Java 打包工具、NullPointerException、record 类型）](#font-colorbluejava-14fontjava-打包工具nullpointerexceptionrecord-类型)
 
 ## <font color=blue>响应式编程</font>
 

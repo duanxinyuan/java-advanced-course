@@ -1,6 +1,29 @@
 # <font color=red>MQ</font>
 
-[toc]
+- [<font color=red>MQ</font>](#font-colorredmqfont)
+  - [MQ 作用](#mq-作用)
+  - [MQ 的缺点](#mq-的缺点)
+  - [<font color=blue>Kafka</font>](#font-colorbluekafkafont)
+      - [名词概念解释](#名词概念解释)
+      - [高可用原理](#高可用原理)
+      - [高吞吐量原理](#高吞吐量原理)
+      - [消息格式](#消息格式)
+      - [为什么 Kafka 分区数变多后性能降低](#为什么-kafka-分区数变多后性能降低)
+  - [<font color=blue>RabbitMQ</font>](#font-colorbluerabbitmqfont)
+      - [AMQP 协议](#amqp-协议)
+      - [名词概念解释](#名词概念解释-1)
+      - [高可用原理](#高可用原理-1)
+      - [事务消息](#事务消息)
+  - [<font color=blue>RocketMQ</font>](#font-colorbluerocketmqfont)
+      - [名词概念解释](#名词概念解释-2)
+      - [高可用原理](#高可用原理-2)
+      - [存储结构](#存储结构)
+      - [Pull 模式、Push 模式](#pull-模式push-模式)
+      - [延迟消息](#延迟消息)
+      - [顺序消息](#顺序消息)
+      - [事务消息](#事务消息-1)
+      - [消费回溯](#消费回溯)
+  - [<font color=blue>Kafka、ActiveMQ、RabbitMQ、RocketMQ 的优缺点</font>](#font-colorbluekafkaactivemqrabbitmqrocketmq-的优缺点font)
 
 ## MQ 作用
 

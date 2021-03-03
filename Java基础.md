@@ -796,8 +796,8 @@ ASM 是一个轻量级 java 字节码操作框架，直接涉及到 JVM 底层�
 
 ###### ArrayList 和 LinkedList 和 Vector 的区别
 
-- ArrayList 是一个可改变大小的数组，当更多的元素加入到 ArrayList 中时，其大小将会动态地增长，内部的元素可以直接通过 get 与 set 方法进行访问，add 和 remove 的性能强，get 和 set 性能弱，默认情况下 ArrayList 的初始容量非常小,所以如果可以预估数据量的话,分配一个较大的初始值属于最佳实践,这样可以减少调整大小的开销
-- LinkedList 是一个双链表，add 和 remove 的性能弱，get 和 set 性能强，LinkedList 还实现了 Queue 接口，该接口比 List 提供了更多的方法，包括 offer(),peek(),poll()等.
+- ArrayList 是一个可改变大小的数组，当更多的元素加入到 ArrayList 中时，其大小将会动态地增长，内部的元素可以直接通过 get 与 set 方法进行访问，add 和 remove 的性能弱，get 和 set 性能强，默认情况下 ArrayList 的初始容量非常小，所以如果可以预估数据量的话，分配一个较大的初始值属于最佳实践，这样可以减少调整大小的开销
+- LinkedList 是一个双链表，add 和 remove 的性能强，get 和 set 性能弱，LinkedList 还实现了 Queue 接口，该接口比 List 提供了更多的方法，包括 offer()、peek()、poll()等.
 - Vector 跟 ArrayList 的实现类似，但是所有读写方法都实现了 synchronized
 - Vector 和 ArrayList 在更多元素添加进来时会请求更大的空间。Vector 每次请求其大小的双倍空间，而 ArrayList 每次对 size 增长 50%
 

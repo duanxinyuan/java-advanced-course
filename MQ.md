@@ -1,66 +1,127 @@
 # <font color=red>MQ</font>
+<!-- TOC -->
 
 - [<font color=red>MQ</font>](#font-colorredmqfont)
-  - [MQ 作用](#mq-作用)
-  - [MQ 的缺点](#mq-的缺点)
-  - [<font color=blue>Kafka</font>](#font-colorbluekafkafont)
-      - [名词概念解释](#名词概念解释)
-      - [高可用原理](#高可用原理)
-      - [高吞吐量原理](#高吞吐量原理)
-      - [消息格式](#消息格式)
-      - [为什么 Kafka 分区数变多后性能降低](#为什么-kafka-分区数变多后性能降低)
-  - [<font color=blue>RabbitMQ</font>](#font-colorbluerabbitmqfont)
-      - [AMQP 协议](#amqp-协议)
-      - [名词概念解释](#名词概念解释-1)
-      - [高可用原理](#高可用原理-1)
-      - [事务消息](#事务消息)
-  - [<font color=blue>RocketMQ</font>](#font-colorbluerocketmqfont)
-      - [名词概念解释](#名词概念解释-2)
-      - [高可用原理](#高可用原理-2)
-      - [存储结构](#存储结构)
-      - [Pull 模式、Push 模式](#pull-模式push-模式)
-      - [延迟消息](#延迟消息)
-      - [顺序消息](#顺序消息)
-      - [事务消息](#事务消息-1)
-      - [消费回溯](#消费回溯)
-  - [<font color=blue>Kafka、ActiveMQ、RabbitMQ、RocketMQ 的优缺点</font>](#font-colorbluekafkaactivemqrabbitmqrocketmq-的优缺点font)
+    - [MQ 作用](#mq-%E4%BD%9C%E7%94%A8)
+    - [MQ 的缺点](#mq-%E7%9A%84%E7%BC%BA%E7%82%B9)
+    - [<font color=blue>Kafka</font>](#font-colorbluekafkafont)
+        - [名词概念解释](#%E5%90%8D%E8%AF%8D%E6%A6%82%E5%BF%B5%E8%A7%A3%E9%87%8A)
+            - [Broker](#broker)
+            - [Topic](#topic)
+            - [Producer](#producer)
+            - [Consumer](#consumer)
+            - [ConsumerGroup](#consumergroup)
+            - [Partition](#partition)
+            - [Segment](#segment)
+            - [Replica](#replica)
+            - [ISR（in-sync replica）](#isrin-sync-replica)
+        - [高可用原理](#%E9%AB%98%E5%8F%AF%E7%94%A8%E5%8E%9F%E7%90%86)
+        - [高吞吐量原理](#%E9%AB%98%E5%90%9E%E5%90%90%E9%87%8F%E5%8E%9F%E7%90%86)
+            - [顺序读写](#%E9%A1%BA%E5%BA%8F%E8%AF%BB%E5%86%99)
+            - [Page Cache](#page-cache)
+            - [零拷贝](#%E9%9B%B6%E6%8B%B7%E8%B4%9D)
+            - [分区、分段（Partition、Segment）](#%E5%88%86%E5%8C%BA%E5%88%86%E6%AE%B5partitionsegment)
+            - [批量发送](#%E6%89%B9%E9%87%8F%E5%8F%91%E9%80%81)
+            - [数据压缩](#%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9)
+        - [消息格式](#%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F)
+        - [为什么 Kafka 分区数变多后性能降低](#%E4%B8%BA%E4%BB%80%E4%B9%88-kafka-%E5%88%86%E5%8C%BA%E6%95%B0%E5%8F%98%E5%A4%9A%E5%90%8E%E6%80%A7%E8%83%BD%E9%99%8D%E4%BD%8E)
+    - [<font color=blue>RabbitMQ</font>](#font-colorbluerabbitmqfont)
+        - [AMQP 协议](#amqp-%E5%8D%8F%E8%AE%AE)
+        - [名词概念解释](#%E5%90%8D%E8%AF%8D%E6%A6%82%E5%BF%B5%E8%A7%A3%E9%87%8A)
+            - [Broker](#broker)
+            - [Virtual host](#virtual-host)
+            - [ConnectionFactory](#connectionfactory)
+            - [Connection](#connection)
+            - [Channel](#channel)
+            - [Exchange](#exchange)
+            - [Queue](#queue)
+            - [RoutingKey](#routingkey)
+            - [BindingKey](#bindingkey)
+        - [高可用原理](#%E9%AB%98%E5%8F%AF%E7%94%A8%E5%8E%9F%E7%90%86)
+        - [事务消息](#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF)
+    - [<font color=blue>RocketMQ</font>](#font-colorbluerocketmqfont)
+        - [名词概念解释](#%E5%90%8D%E8%AF%8D%E6%A6%82%E5%BF%B5%E8%A7%A3%E9%87%8A)
+            - [Broker](#broker)
+            - [NameServer](#nameserver)
+            - [Topic](#topic)
+            - [Queue](#queue)
+            - [Producer](#producer)
+            - [Producer Group](#producer-group)
+            - [Consumer](#consumer)
+            - [Consumer Group](#consumer-group)
+        - [高可用原理](#%E9%AB%98%E5%8F%AF%E7%94%A8%E5%8E%9F%E7%90%86)
+        - [消息存储结构](#%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84)
+        - [Pull 模式、Push 模式](#pull-%E6%A8%A1%E5%BC%8Fpush-%E6%A8%A1%E5%BC%8F)
+            - [Pull 模式](#pull-%E6%A8%A1%E5%BC%8F)
+            - [Push 模式](#push-%E6%A8%A1%E5%BC%8F)
+        - [延迟消息](#%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF)
+        - [顺序消息](#%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF)
+        - [事务消息](#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF)
+        - [消费回溯](#%E6%B6%88%E8%B4%B9%E5%9B%9E%E6%BA%AF)
+    - [<font color=blue>Kafka、ActiveMQ、RabbitMQ、RocketMQ 的优缺点</font>](#font-colorbluekafkaactivemqrabbitmqrocketmq-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9font)
 
-## MQ 作用
+<!-- /TOC -->
+## 1. MQ 作用
 
 1. 解耦
 2. 异步
 3. 削峰
 
-## MQ 的缺点
+## 2. MQ 的缺点
 
 1. 系统可用性降低（多了一个 MQ 服务）
 2. 系统复杂度提高（消息丢失、消息重复等问题需要处理）
 3. 数据一致性问题（无法确保多个系统之间的数据一致性）
 
-## <font color=blue>Kafka</font>
+## 3. <font color=blue>Kafka</font>
 
-#### 名词概念解释
+### 3.1. 名词概念解释
 
-- Broker：消息中间件节点，一个节点就是一个 broker，一个或者多个 Broker 可以组成一个集群
-- Topic：主题，Kafka 根据 topic 对消息进行归类，发布到 Kafka 集群的每条消息都需要指定一个 topic
-- Producer：消息生产者，向 Broker 发送消息的客户端
-- Consumer：消息消费者，从 Broker 读取消息的客户端
-- ConsumerGroup：每个 Consumer 属于一个特定的 Consumer Group，一条消息可以被多个不同的 Consumer Group 消费，一条消息只能被 Consumer Group 中的一个 Consumer 消费
-- Partition：分区，一个 topic 可以分为多个 partition，每个 partition 内部的消息是有序的
-- Segment：分段，一个 Partition 划分为多个 segment file（一个数据文件+一个索引文件），Parition 是文件夹
-- Replica：副本，每个 Topic 可以设置有 N 个副本（replica），副本数最好要小于 broker 的数量，每个 Topic 的多个 replica 分为 Lerder replica 和 follower replica
-- ISR（in-sync replica）：
-  - 副本同步集合，每个分区都有自己的一个 ISR 集合
-  - 处于 ISR 集合中的副本，意味着 follower 副本与 leader 副本保持同步状态
-  - 只有处于 ISR 集合中的副本才有资格被选举为 leader
-  - ISR 由 leader 维护，如果有 follower 副本没有响应或消息延时太大，那么 leader 会将该 follower 副本移除
-  - 判断 follower 副本可移除的条件：
-    - 没有响应，由参数 replica.log.time.max.ms 决定
-    - 消息延时
-      - 0.9.0.0 版本之前：由参数 replica.log.max.messages 决定，即允许 follower 副本落后 leader 副本的消息数量，超过这个数量后，follower 会被踢出 ISR
-      - 0.9.0.0 版本之后，由参数 replica.lag.time.max.ms 决定，该参数指的是允许 follower 副本不同步消息的最大时间值，即只要在 replica.lag.time.max.ms 时间内 follower 有同步消息，即认为该 follower 处于 ISR 中
+#### 3.1.1. Broker
 
-#### 高可用原理
+消息中间件节点，一个节点就是一个 broker，一个或者多个 Broker 可以组成一个集群
+
+#### 3.1.2. Topic
+
+主题，Kafka 根据 topic 对消息进行归类，发布到 Kafka 集群的每条消息都需要指定一个 topic
+
+#### 3.1.3. Producer
+
+消息生产者，向 Broker 发送消息的客户端
+
+#### 3.1.4. Consumer
+
+消息消费者，从 Broker 读取消息的客户端
+
+#### 3.1.5. ConsumerGroup
+
+每个 Consumer 属于一个特定的 Consumer Group，一条消息可以被多个不同的 Consumer Group 消费，一条消息只能被 Consumer Group 中的一个 Consumer 消费
+
+#### 3.1.6. Partition
+
+分区，一个 topic 可以分为多个 partition，每个 partition 内部的消息是有序的
+
+#### 3.1.7. Segment
+
+分段，一个 Partition 划分为多个 segment file（一个数据文件+一个索引文件），Parition 是文件夹
+
+#### 3.1.8. Replica
+
+副本，每个 Topic 可以设置有 N 个副本（replica），副本数最好要小于 broker 的数量，每个 Topic 的多个 replica 分为 Lerder replica 和 follower replica
+
+#### 3.1.9. ISR（in-sync replica）
+
+- 副本同步集合，每个分区都有自己的一个 ISR 集合
+- 处于 ISR 集合中的副本，意味着 follower 副本与 leader 副本保持同步状态
+- 只有处于 ISR 集合中的副本才有资格被选举为 leader
+- ISR 由 leader 维护，如果有 follower 副本没有响应或消息延时太大，那么 leader 会将该 follower 副本移除
+- 判断 follower 副本可移除的条件：
+ - 没有响应，由参数 replica.log.time.max.ms 决定
+ - 消息延时
+   - 0.9.0.0 版本之前：由参数 replica.log.max.messages 决定，即允许 follower 副本落后 leader 副本的消息数量，超过这个数量后，follower 会被踢出 ISR
+   - 0.9.0.0 版本之后，由参数 replica.lag.time.max.ms 决定，该参数指的是允许 follower 副本不同步消息的最大时间值，即只要在 replica.lag.time.max.ms 时间内 follower 有同步消息，即认为该 follower 处于 ISR 中
+
+### 3.2. 高可用原理
 
 - Kafka 0.8 以后，提供了 HA 机制，就是 replica（复制品） 副本机制
 - 每个 partition 的数据都会同步到其它机器上，形成自己的多个 replica 副本。所有 replica 会选举一个 leader 出来，生产和消费都跟这个 leader 交互，然后其他 replica 就是 follower。写的时候，leader 会负责把数据同步到所有 follower 上去（可配置 ack 机制），读的时候就直接读 leader 上的数据即可
@@ -70,30 +131,41 @@
   1. broker 必须维护和 zookeeper 的连接，zookeeper 会通过心跳机制检查每个节点的连接
   2. follower 必要能及时同步与 leader 的写操作，不能延时太久
 
-#### 高吞吐量原理
+### 3.3. 高吞吐量原理
 
-- 顺序读写
-  - kafka 的消息是不断追加到文件中的，这个特性使 kafka 可以充分利用磁盘的顺序读写性能
-  - 顺序读写不需要硬盘磁头的寻道时间，只需很少的扇区旋转时间，所以速度远快于随机读写
-  - 一般而言要高出磁盘随机读写三个数量级，一些情况下磁盘顺序读写性能甚至要高于内存随机读写
-- Page Cache
-  - 为了优化读写性能，Kafka 利用了操作系统本身的 Page Cache，就是利用操作系统自身的内存而不是 JVM 空间内存
-- 零拷贝
-  - Kafka 采用的是 sendfile 零拷贝方式，允许操作系统将数据从 Page Cache 直接发送到网络，只需要最后一步的 copy 操作将数据复制到 NIC 缓冲区， 这样避免重新复制数据
-- 分区、分段（Partition、Segment）
-  - 每个 Topic 分为多个 Partition，每个 Partition 又分为多个 Segment，所以每次操作都是针对一小部分做操作，很轻便，并且增加并发能力强
-- 批量发送
-  - kafka 允许进行批量发送消息，producter 发送消息的时候，可以将消息缓存在本地,等到了固定条件发送到 kafka
-  - 批量发送的阈值条件：
-    - 积压的消息条数阈值
-    - 发送的时间间隔阈值
-- 数据压缩
-  - Kafka 使用了批量压缩，即将多个消息一起压缩而不是单个消息压缩
-  - Kafka 允许使用递归的消息集合，批量的消息可以通过压缩的形式传输并且在日志中也可以保持压缩格式，直到被消费者解压缩
-  - Kafka 支持多种压缩协议，包括 Gzip 和 Snappy 压缩协议
-  - 数据压缩需要和批量发送一起使用，单条做数据压缩的话，压缩率相对很低，效果不明显
+#### 3.3.1. 顺序读写
 
-#### 消息格式
+- kafka 的消息是不断追加到文件中的，这个特性使 kafka 可以充分利用磁盘的顺序读写性能
+- 顺序读写不需要硬盘磁头的寻道时间，只需很少的扇区旋转时间，所以速度远快于随机读写
+- 一般而言要高出磁盘随机读写三个数量级，一些情况下磁盘顺序读写性能甚至要高于内存随机读写
+
+#### 3.3.2. Page Cache
+
+- 为了优化读写性能，Kafka 利用了操作系统本身的 Page Cache，就是利用操作系统自身的内存而不是 JVM 空间内存
+
+#### 3.3.3. 零拷贝
+
+- Kafka 采用的是 sendfile 零拷贝方式，允许操作系统将数据从 Page Cache 直接发送到网络，只需要最后一步的 copy 操作将数据复制到 NIC 缓冲区， 这样避免重新复制数据
+
+#### 3.3.4. 分区、分段（Partition、Segment）
+
+- 每个 Topic 分为多个 Partition，每个 Partition 又分为多个 Segment，所以每次操作都是针对一小部分做操作，很轻便，并且增加并发能力强
+
+#### 3.3.5. 批量发送
+
+- kafka 允许进行批量发送消息，producter 发送消息的时候，可以将消息缓存在本地,等到了固定条件发送到 kafka
+- 批量发送的阈值条件：
+  - 积压的消息条数阈值
+  - 发送的时间间隔阈值
+
+#### 3.3.6. 数据压缩
+
+- Kafka 使用了批量压缩，即将多个消息一起压缩而不是单个消息压缩
+- Kafka 允许使用递归的消息集合，批量的消息可以通过压缩的形式传输并且在日志中也可以保持压缩格式，直到被消费者解压缩
+- Kafka 支持多种压缩协议，包括 Gzip 和 Snappy 压缩协议
+- 数据压缩需要和批量发送一起使用，单条做数据压缩的话，压缩率相对很低，效果不明显
+
+### 3.4. 消息格式
 
 - 消息由一个固定长度的头部和可变长度的字节数组组成。头部包含了一个版本号和 CRC32 校验码
   1. 消息长度: 4 bytes (value: 1+4+n)
@@ -101,16 +173,16 @@
   3. CRC 校验码: 4 bytes
   4. 具体的消息: n bytes
 
-#### 为什么 Kafka 分区数变多后性能降低
+### 3.5. 为什么 Kafka 分区数变多后性能降低
 
 - 同时开启的文件句柄数高：分区越多，在底层操作系统中配置打开文件句柄限制所需要的分区就越高
 - 副本复制代价大：分区太多，一旦 Broker 宕机，重新选举每个 Topic 的 leader 副本的时间会变长，从 ZooKeeper 初始化元数据每个分区的时间也会很长
 - 增加端到端延迟：发送消息后，leader 副本的消息复制到 follower 副本的时间会增长，消息发送的延迟就会增高
 - 客户端需要更多内存存储分区信息：客户端发送消息需要分区信息，因此分区越多，内存占用越大
 
-## <font color=blue>RabbitMQ</font>
+## 4. <font color=blue>RabbitMQ</font>
 
-#### AMQP 协议
+### 4.1. AMQP 协议
 
 - AMQP（Advanced Message Queuing Protocol）是一个提供统消息服务的应用层标准高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计
 - AMQP 模型包括一套用于路由和存储消息的功能模块，以及一套在这些模块之间交换消息的规则
@@ -119,23 +191,49 @@
   - message queue：存储消息，直到这些消息被消费者安全处理完为止
   - binding：定义了 exchange 和 message queue 之间的关联，提供路由规则
 
-#### 名词概念解释
+### 4.2. 名词概念解释
 
-- Broker: 消息中间件节点，一个节点就是一个 broker，一个或者多个 Broker 可以组成一个集群
-- Virtual host: 出于多租户和安全因素设计的，把 AMQP 的基本组件划分到一个虚拟的分组中，类似于网络中的 namespace 概念。当多个不同的用户使用同一个 RabbitMQ server 提供的服务时，可以划分出多个 vhost，每个用户在自己的 vhost 创建 exchange／queue 等
-- ConnectionFactory：连接管理器
-- Connection: publisher／consumer 和 broker 之间的 TCP 连接。断开连接的操作只会在 client 端进行，Broker 不会断开连接，除非出现网络故障或 broker 服务出现问题
-- Channel：Channel 是在 connection 内部建立的逻辑连接，是轻量级的 Connection
-- Exchange: 路由器，message 到达 Broker 的第一站，根据分发规则，匹配查询表中的 routing key，分发消息到 queue 中去
-  - Exchange 类型：
+#### 4.2.1. Broker
+
+消息中间件节点，一个节点就是一个 broker，一个或者多个 Broker 可以组成一个集群
+
+#### 4.2.2. Virtual host
+
+出于多租户和安全因素设计的，把 AMQP 的基本组件划分到一个虚拟的分组中，类似于网络中的 namespace 概念。当多个不同的用户使用同一个 RabbitMQ server 提供的服务时，可以划分出多个 vhost，每个用户在自己的 vhost 创建 exchange／queue 等
+
+#### 4.2.3. ConnectionFactory
+
+连接管理器
+
+#### 4.2.4. Connection
+
+publisher／consumer 和 broker 之间的 TCP 连接。断开连接的操作只会在 client 端进行，Broker 不会断开连接，除非出现网络故障或 broker 服务出现问题
+
+#### 4.2.5. Channel
+
+Channel 是在 connection 内部建立的逻辑连接，是轻量级的 Connection
+
+#### 4.2.6. Exchange
+
+- 路由器，message 到达 Broker 的第一站，根据分发规则，匹配查询表中的 routing key，分发消息到 queue 中去
+- Exchange 类型：
   - DirectExchange (point-to-point)：通过一个 routingKey 与 Queue 一对一绑定
   - TopicExchange (publish-subscribe) ：可以通过特定格式的 routingKey 匹配规则，支持 Exchange 与 Queue 一对多绑定（\*代表过滤一个单词，#代表过滤后面所有单词，多个单词用.隔开）
   - FanoutExchange (multicast)：类似广播模式，只要与他绑定了的 Queue， 他就会把消息发送给对应 Queue（与 routingKey 没关系）
-- Queue: 队列，消息最终被送到这里等待 consumer 取走。一个 message 可以被同时拷贝到多个 queue 中
-- RoutingKey：路由键，用于把生成者的数据分配到交换器上
-- BindingKey: 绑定键，Exchange 和 Queue 之间的虚拟连接，binding 中可以包含 routing key。Binding 信息被保存到 exchange 中的查询表中，用于 message 的分发依据
 
-#### 高可用原理
+#### 4.2.7. Queue
+
+队列，消息最终被送到这里等待 consumer 取走。一个 message 可以被同时拷贝到多个 queue 中
+
+#### 4.2.8. RoutingKey
+
+路由键，用于把生成者的数据分配到交换器上
+
+#### 4.2.9. BindingKey
+
+绑定键，Exchange 和 Queue 之间的虚拟连接，binding 中可以包含 routing key。Binding 信息被保存到 exchange 中的查询表中，用于 message 的分发依据
+
+### 4.3. 高可用原理
 
 - RabbitMQ 是基于主从（非分布式）做高可用性的
 - RabbitMQ 集群模式有三种：单机模式、普通集群模式、镜像集群模式
@@ -149,7 +247,7 @@
     - 新建的 queue，无论元数据还是 queue 里的消息都会存在于多个实例上，每个 RabbitMQ 节点都有这个 queue 的一个完整镜像，包含 queue 的全部数据，写消息到 queue 的时候，会自动把消息同步到其他的多个实例的 queue 上
     - 能保证高可用，但是性能开销大，无法线性扩展，单节点的容量上限决定了集群的容量上限
 
-#### 事务消息
+### 4.4. 事务消息
 
 - RabbitMQ 为我们提供了两种事务消息的实现方式
   - 事务机制
@@ -165,28 +263,51 @@
     - confirm 模式最大的好处在于他是异步的，一旦发布一条消息，生产者应用程序就可以在等信道返回确认的同时继续发送下一条消息
     - 缺点：无法确保消息发送成功后本地事务可以执行成功，因此不是完全的事务消息
 
-## <font color=blue>RocketMQ</font>
+## 5. <font color=blue>RocketMQ</font>
 
-#### 名词概念解释
+### 5.1. 名词概念解释
 
-- Broker：消息中间件节点，一个节点就是一个 broker，一个或者多个 Broker 可以组成一个集群
-- NameServer：路由注册中心
-  - **NameServer 之间互不通信**
-  - **Broker 会与每个 NameServer 保持长连接**
-  - **Producer 与 NameServer 集群中的一台服务器建立长连接**
-  - **Producer 持有整个 NameServer 集群的列表**
-  - Broker 每 30s 向 NameServer 发送心跳包，心跳包中包含主题的路由信息（主题的读写队列数、操作权限等），NameServer 会通过 HashMap 更新 Topic 的路由信息，并记录最后一次收到 Broker 的时间戳
-  - NameServer 以每 10s 的频率清除已宕机的 Broker，NameServer 认为 Broker 宕机的依据是如果当前系统时间戳减去最后一次收到 Broker 心跳包的时间戳大于 120s
-  - **Producer 以每 30s 的频率去拉取主题的路由信息，如果增加了新的 Broker 或者 Broker 宕机，Producer 并不会立即感知**
-  - **当 Producer 向 Broker 发送消息返回异常后，Producer 会在接下来一定时间内不会再次选择该 Broker 上的队列（时间可配置）**
-- Topic：主题，RocketMQ 根据 topic 对消息进行归类，发布到 RocketMQ 集群的每条消息都需要指定一个 topic
-- Queue：Topic 和 Queue 是 1 对多的关系，一个 Topic 下可以包含多个 Queue，主要用于负载均衡。**发送消息时，用户只指定 Topic，Producer 会根据 Topic 的路由信息选择具体发到哪个 Queue 上。Consumer 订阅消息时，会根据负载均衡策略决定订阅哪些 Queue 的消息**
-- Producer：消息生产者，向 Broker 发送消息的客户端
-- Producer Group：生产者组，多个发送同一类消息的 Producer 称为一个生产者组，**作用是在一个 Producer 宕机之后，本地事务回滚后，可以继续联系该组下的另外一个生产者实例，避免影响业务**
-- Consumer：消息消费者，从 Broker 读取消息的客户端
-- Consumer Group：消费者组，消费同一类消息的多个 Consumer 实例组成一个消费者组，一个 Consumer Group 下的多个 Consumer 以均摊方式消费消息，如果设置为广播方式，那么这个 Consumer Group 下的每个实例都消费全量数据
+#### 5.1.1. Broker
 
-#### 高可用原理
+消息中间件节点，一个节点就是一个 broker，一个或者多个 Broker 可以组成一个集群
+
+#### 5.1.2. NameServer
+
+- 路由注册中心
+- **NameServer 之间互不通信**
+- **Broker 会与每个 NameServer 保持长连接**
+- **Producer 与 NameServer 集群中的一台服务器建立长连接**
+- **Producer 持有整个 NameServer 集群的列表**
+- Broker 每 30s 向 NameServer 发送心跳包，心跳包中包含主题的路由信息（主题的读写队列数、操作权限等），NameServer 会通过 HashMap 更新 Topic 的路由信息，并记录最后一次收到 Broker 的时间戳
+- NameServer 以每 10s 的频率清除已宕机的 Broker，NameServer 认为 Broker 宕机的依据是如果当前系统时间戳减去最后一次收到 Broker 心跳包的时间戳大于 120s
+- **Producer 以每 30s 的频率去拉取主题的路由信息，如果增加了新的 Broker 或者 Broker 宕机，Producer 并不会立即感知**
+- **当 Producer 向 Broker 发送消息返回异常后，Producer 会在接下来一定时间内不会再次选择该 Broker 上的队列（时间可配置）**
+
+#### 5.1.3. Topic
+
+主题，RocketMQ 根据 topic 对消息进行归类，发布到 RocketMQ 集群的每条消息都需要指定一个 topic
+
+#### 5.1.4. Queue
+
+Topic 和 Queue 是 1 对多的关系，一个 Topic 下可以包含多个 Queue，主要用于负载均衡。**发送消息时，用户只指定 Topic，Producer 会根据 Topic 的路由信息选择具体发到哪个 Queue 上。Consumer 订阅消息时，会根据负载均衡策略决定订阅哪些 Queue 的消息**
+
+#### 5.1.5. Producer
+
+消息生产者，向 Broker 发送消息的客户端
+
+#### 5.1.6. Producer Group
+
+生产者组，多个发送同一类消息的 Producer 称为一个生产者组，**作用是在一个 Producer 宕机之后，本地事务回滚后，可以继续联系该组下的另外一个生产者实例，避免影响业务**
+
+#### 5.1.7. Consumer
+
+消息消费者，从 Broker 读取消息的客户端
+
+#### 5.1.8. Consumer Group
+
+消费者组，消费同一类消息的多个 Consumer 实例组成一个消费者组，一个 Consumer Group 下的多个 Consumer 以均摊方式消费消息，如果设置为广播方式，那么这个 Consumer Group 下的每个实例都消费全量数据
+
+### 5.2. 高可用原理
 
 - RocketMQ 每个 Topic 的多个 Queue 会分散在多个 Broker 上，每个 Queue 持有一部分数据，且支持给 Master 节点设置 Slave 节点
 - NameServer 一般是集群化部署，每个 NameServer 会互相同步收到的元数据，保证各个 NameServer 上包含的集群元数据都是相同的，一旦 Broker 宕机，会通知对应的 Slave 切换为 Master 保证高可用
@@ -195,7 +316,7 @@
   - 双 Master 双 Slave 同步双写： 比异步复制的性能差 10%，但能保证数据不丢失
   - 双 Master 双 Slave 异步复制：性能最好，但是遇到突发情况会有少量数据丢失（Master 宕机，未同步到 Slave 节点的数据将会丢失）
 
-#### 存储结构
+### 5.3. 消息存储结构
 
 - RocketMQ 存储设计主要包含 CommitLog 文件、ConsumeQueue 文件和 IndexFile 文件
 - CommitLog 文件
@@ -205,28 +326,31 @@
 - IndexFile 文件
   - 基于物理磁盘文件实现 Hash 索引。其文件由 40 字节的文件头、500W 个 Hash 槽，每个 Hash 槽为 4 个字节，最后由 2000 万个 Index 条目，每个条目由 20 个字节构成，分别为 4 字节的索引 key 的 HashCode、8 字节消息物理偏移量、4 字节时间戳、4 字节的前一个 Index 条目( Hash 冲突的链表结构)
 
-#### Pull 模式、Push 模式
+### 5.4. Pull 模式、Push 模式
 
-- Pull 模式
-  - Consumer 遍历 Queue 集合，批量获取每个 Queue 的消息，并记录 offset
-  - 消费者从 server 端拉消息，主动权在消费端，可控性好，但需要控制消费速度，否则会造成大量空 pull 请求（消费间隔时间太短）或者消息处理不及时（消费间隔时间太长）
-- Push 模式
-  - PullMessageService 轮询拉取消息，通过 Consumer 注册的 MessageListener 监听器将消息传到 Consumer 中，对用户而言，感觉消息是被推送过来的
-  - 缺点：Push 模式速度过快，如果消息处理很慢，会导致内存中堆积的消息增多，为此 RocketMQ 还实现了消费端的限流（根据消息堆积数量和消息堆积大小决定是否控制消费速度）
+#### 5.4.1. Pull 模式
 
-#### 延迟消息
+- Consumer 遍历 Queue 集合，批量获取每个 Queue 的消息，并记录 offset
+- 消费者从 server 端拉消息，主动权在消费端，可控性好，但需要控制消费速度，否则会造成大量空 pull 请求（消费间隔时间太短）或者消息处理不及时（消费间隔时间太长）
+
+#### 5.4.2. Push 模式
+
+- PullMessageService 轮询拉取消息，通过 Consumer 注册的 MessageListener 监听器将消息传到 Consumer 中，对用户而言，感觉消息是被推送过来的
+- 缺点：Push 模式速度过快，如果消息处理很慢，会导致内存中堆积的消息增多，为此 RocketMQ 还实现了消费端的限流（根据消息堆积数量和消息堆积大小决定是否控制消费速度）
+
+### 5.5. 延迟消息
 
 - RocketMQ 支持延时消息，但是不支持任意时间精度，支持特定的 level，例如定时 5s，10s，1m 等
 - **所有的延迟消息由 producer 发出之后，都会存放到同一个 topic（SCHEDULE_TOPIC_XXXX）下，不同的延迟级别会对应不同的队列序号**
 - **当延迟时间到之后，由定时线程读取转换为普通的消息存的真实指定的 topic 下，此时对于 consumer 端此消息才可见，从而被 consumer 消费**
 
-#### 顺序消息
+### 5.6. 顺序消息
 
 - RocketMQ 提供了两种顺序消息级别
   - 普通顺序消息：**Producer 使用同步的方式发送消息，重写 MessageQueueSelector()接口，实现消息按照严格的顺序存储在 rocketmq 的一个相同的 queue 里面**
   - 完全严格顺序 ：在 普通顺序消息 的基础上，Consumer 严格顺序消费，**采用分布式锁，确保同时只有一个 Consumer 在消费消息，每次 OrderlyQueue 变更 Consumer 时必须确保消息全部被消费完了，才可以释放锁**
 
-#### 事务消息
+### 5.7. 事务消息
 
 - RocketMQ 提供了事务消息的功能，采用 2PC(两段式协议)+补偿机制（事务回查）的分布式事务功能
   - 事务消息发送步骤：
@@ -239,12 +363,12 @@
     7. 如果 Broker 未收到了确认消息，Broker 会定时回查本地事务的执行结果，以确保查到最终的事务结果
 - 消息回查：Broker 通过扫描发现某条消息长期处于“半事务消息”状态时，需要主动向 Producer 询问该消息的最终状态（Commit 或是 Rollback），如果 Producer 返回的状态是 Unknown，则表示本地事务结果无法确认，Broker 会继回查，知道成功或者失败
 
-#### 消费回溯
+### 5.8. 消费回溯
 
 - Broker 在向 Consumer 投递成功消息后，可以配置消息保留时长，消息仍然会保留
 - RocketMQ 支持按照时间回溯消费，时间维度精确到毫秒，可以向前回溯，也可以向后回溯
 
-## <font color=blue>Kafka、ActiveMQ、RabbitMQ、RocketMQ 的优缺点</font>
+## 6. <font color=blue>Kafka、ActiveMQ、RabbitMQ、RocketMQ 的优缺点</font>
 
 | 特性                     | ActiveMQ                              | RabbitMQ                                           | RocketMQ                                                                                                              | Kafka                                                                                                                                           |
 | ------------------------ | ------------------------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |

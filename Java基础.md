@@ -1,222 +1,6 @@
 # <font color=red>JAVA 基础</font>
-<!-- TOC -->
+# <font color=red>JAVA 基础</font>
 
-- [<font color=red>JAVA 基础</font>](#font-colorredjava-%E5%9F%BA%E7%A1%80font)
-    - [<font color=blue>位运算</font>](#font-colorblue%E4%BD%8D%E8%BF%90%E7%AE%97font)
-        - [位与（5 & 3）](#%E4%BD%8D%E4%B8%8E5--3)
-        - [位或（5 | 3）](#%E4%BD%8D%E6%88%965--3)
-        - [位异或（5 ^ 3）](#%E4%BD%8D%E5%BC%82%E6%88%965-%5E-3)
-        - [位非（ ~ 5）](#%E4%BD%8D%E9%9D%9E--5)
-        - [左移（5 << 2）](#%E5%B7%A6%E7%A7%BB5--2)
-        - [无符号左移（5 <<< 2）](#%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%B7%A6%E7%A7%BB5--2)
-        - [右移（5 >> 2）](#%E5%8F%B3%E7%A7%BB5--2)
-        - [无符号右移（5 >>> 2）](#%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%8F%B3%E7%A7%BB5--2)
-    - [<font color=blue>基础数据类型</font>](#font-colorblue%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bfont)
-        - [Integer](#integer)
-        - [String](#string)
-    - [<font color=blue>switch</font>](#font-colorblueswitchfont)
-        - [hashCode和 equals](#hashcode%E5%92%8C-equals)
-        - [Bloom Filter](#bloom-filter)
-        - [Bitmap](#bitmap)
-        - [BitSet](#bitset)
-        - [加密算法](#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95)
-        - [拜占庭（将军）问题与算法](#%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98%E4%B8%8E%E7%AE%97%E6%B3%95)
-        - [共识算法](#%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95)
-            - [常见共识算法类型](#%E5%B8%B8%E8%A7%81%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E7%B1%BB%E5%9E%8B)
-    - [<font color=blue>IO</font>](#font-colorblueiofont)
-        - [BIO、NIO 和 AIO 区别](#bionio-%E5%92%8C-aio-%E5%8C%BA%E5%88%AB)
-        - [BIO、NIO 和 AIO 各自适用场景](#bionio-%E5%92%8C-aio-%E5%90%84%E8%87%AA%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF)
-    - [<font color=blue>IO 密集型&CPU 密集型</font>](#font-colorblueio-%E5%AF%86%E9%9B%86%E5%9E%8Bcpu-%E5%AF%86%E9%9B%86%E5%9E%8Bfont)
-    - [<font color=blue>反射</font>](#font-colorblue%E5%8F%8D%E5%B0%84font)
-    - [<font color=blue>代理</font>](#font-colorblue%E4%BB%A3%E7%90%86font)
-        - [静态代理](#%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86)
-        - [动态代理](#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
-            - [**动态代理的实现方式：**](#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F)
-            - [**JDK 动态代理和 Cglib 动态代理的区别：**](#jdk-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%92%8C-cglib-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Cglib 比 JDK 快？](#cglib-%E6%AF%94-jdk-%E5%BF%AB)
-            - [Spring 如何选择是用 JDK 还是 cglib？](#spring-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%98%AF%E7%94%A8-jdk-%E8%BF%98%E6%98%AF-cglib)
-    - [<font color=blue>序列化与反序列化</font>](#font-colorblue%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96font)
-        - [ObjectOutputStream、ObjectInputStream](#objectoutputstreamobjectinputstream)
-        - [java.io.Serializable、java.io.Externalizable](#javaioserializablejavaioexternalizable)
-        - [serialVersionUID](#serialversionuid)
-        - [ProtoBuf](#protobuf)
-        - [Hessian](#hessian)
-    - [<font color=blue>范型</font>](#font-colorblue%E8%8C%83%E5%9E%8Bfont)
-    - [<font color=blue>finally 和 return 的执行顺序</font>](#font-colorbluefinally-%E5%92%8C-return-%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8Ffont)
-    - [<font color=blue>CET、UTC、GMT、CST（时间）</font>](#font-colorbluecetutcgmtcst%E6%97%B6%E9%97%B4font)
-    - [<font color=blue>设计模式</font>](#font-colorblue%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Ffont)
-        - [设计模式大类](#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%A4%A7%E7%B1%BB)
-        - [常用设计模式](#%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
-        - [单例模式](#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)
-            - [饿汉式：](#%E9%A5%BF%E6%B1%89%E5%BC%8F)
-            - [懒汉式：](#%E6%87%92%E6%B1%89%E5%BC%8F)
-            - [线程安全的懒汉式：](#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E6%87%92%E6%B1%89%E5%BC%8F)
-            - [静态内部类式:](#%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB%E5%BC%8F)
-            - [枚举式](#%E6%9E%9A%E4%B8%BE%E5%BC%8F)
-    - [<font color=blue>JAVA 动态字节码技术</font>](#font-colorbluejava-%E5%8A%A8%E6%80%81%E5%AD%97%E8%8A%82%E7%A0%81%E6%8A%80%E6%9C%AFfont)
-        - [java 常见的字节码操作类库](#java-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81%E6%93%8D%E4%BD%9C%E7%B1%BB%E5%BA%93)
-            - [BCEL](#bcel)
-            - [ASM](#asm)
-            - [Javassist](#javassist)
-        - [Enumeration 和 Iterator 区别](#enumeration-%E5%92%8C-iterator-%E5%8C%BA%E5%88%AB)
-        - [fail-fast 和 fail-safe](#fail-fast-%E5%92%8C-fail-safe)
-        - [Copy-On-Write](#copy-on-write)
-        - [Queue&Deque](#queuedeque)
-            - [Queue](#queue)
-            - [Deque（Double Ended Queue）](#dequedouble-ended-queue)
-        - [Collection](#collection)
-        - [ArrayList、LinkedList、Vector、SynchronizedList、CopyOnWriteArrayList](#arraylistlinkedlistvectorsynchronizedlistcopyonwritearraylist)
-            - [ArrayList 和 LinkedList 和 Vector 的区别](#arraylist-%E5%92%8C-linkedlist-%E5%92%8C-vector-%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [SynchronizedList 和 Vector 的区别](#synchronizedlist-%E5%92%8C-vector-%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [CopyOnWriteArrayList 和 ArrayList 的区别](#copyonwritearraylist-%E5%92%8C-arraylist-%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Arrays.asList](#arraysaslist)
-            - [如何在遍历的同时删除 ArrayList 中的元素](#%E5%A6%82%E4%BD%95%E5%9C%A8%E9%81%8D%E5%8E%86%E7%9A%84%E5%90%8C%E6%97%B6%E5%88%A0%E9%99%A4-arraylist-%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0)
-        - [Set](#set)
-        - [HashSet、LinkedHashSet、TreeSet](#hashsetlinkedhashsettreeset)
-            - [HashSet](#hashset)
-            - [LinkedHashSet](#linkedhashset)
-            - [TreeSet](#treeset)
-            - [HashSet 和 TreeSet 的区别](#hashset-%E5%92%8C-treeset-%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Set 如何保证元素不重复](#set-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%85%83%E7%B4%A0%E4%B8%8D%E9%87%8D%E5%A4%8D)
-        - [Set 和 List 区别](#set-%E5%92%8C-list-%E5%8C%BA%E5%88%AB)
-        - [HashMap、HashTable、LinkedHashMap、TreeMap、ConcurrentHashMap、ConcurrentSkipListMap](#hashmaphashtablelinkedhashmaptreemapconcurrenthashmapconcurrentskiplistmap)
-            - [HashMap](#hashmap)
-                - [JDK1.7 及 1.7 之前的版本（数组+链表）](#jdk17-%E5%8F%8A-17-%E4%B9%8B%E5%89%8D%E7%9A%84%E7%89%88%E6%9C%AC%E6%95%B0%E7%BB%84%E9%93%BE%E8%A1%A8)
-                - [JDK1.8 及 1.8 之后的版本（数组+链表+红黑树）](#jdk18-%E5%8F%8A-18-%E4%B9%8B%E5%90%8E%E7%9A%84%E7%89%88%E6%9C%AC%E6%95%B0%E7%BB%84%E9%93%BE%E8%A1%A8%E7%BA%A2%E9%BB%91%E6%A0%91)
-                - [扩容机制](#%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6)
-                - [HashMap 线程不安全](#hashmap-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8)
-                - [Hashtable](#hashtable)
-                - [LinkedHashMap](#linkedhashmap)
-                - [TreeMap](#treemap)
-                - [ConcurrentHashMap](#concurrenthashmap)
-                - [ConcurrentSkipListMap](#concurrentskiplistmap)
-                - [HashMap 和 Hashtable 区别](#hashmap-%E5%92%8C-hashtable-%E5%8C%BA%E5%88%AB)
-                - [HashMap 和 ConcurrentHashMap 的区别](#hashmap-%E5%92%8C-concurrenthashmap-%E7%9A%84%E5%8C%BA%E5%88%AB)
-    - [<font color=blue>Stream</font>](#font-colorbluestreamfont)
-    - [<font color=blue>JVM</font>](#font-colorbluejvmfont)
-        - [JVM 类型](#jvm-%E7%B1%BB%E5%9E%8B)
-        - [JVM 内存结构](#jvm-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84)
-        - [JDK8 元空间](#jdk8-%E5%85%83%E7%A9%BA%E9%97%B4)
-        - [JDK8 为什么要使用元空间取代永久代？](#jdk8-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%85%83%E7%A9%BA%E9%97%B4%E5%8F%96%E4%BB%A3%E6%B0%B8%E4%B9%85%E4%BB%A3)
-        - [直接内存（Swap 堆外内存）](#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98swap-%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98)
-        - [JAVA 对象在内存中的组成](#java-%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E7%BB%84%E6%88%90)
-        - [对象的创建过程](#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B)
-        - [对象的深浅复制](#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%B7%B1%E6%B5%85%E5%A4%8D%E5%88%B6)
-        - [垃圾回收（GC）策略](#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6gc%E7%AD%96%E7%95%A5)
-        - [垃圾回收（GC）算法](#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6gc%E7%AE%97%E6%B3%95)
-        - [分代收集](#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86)
-        - [HotSpot 垃圾收集器](#hotspot-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8)
-            - [**新生代垃圾收集器**](#%E6%96%B0%E7%94%9F%E4%BB%A3%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8)
-            - [**老年代垃圾收集器**](#%E8%80%81%E5%B9%B4%E4%BB%A3%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8)
-            - [**G1 通用垃圾收集器**](#g1-%E9%80%9A%E7%94%A8%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8)
-        - [GC 分类](#gc-%E5%88%86%E7%B1%BB)
-        - [内存分配与回收策略](#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5)
-        - [<font color=blue>JVM 常量池</font>](#font-colorbluejvm-%E5%B8%B8%E9%87%8F%E6%B1%A0font)
-        - [类文件结构](#%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84)
-        - [<font color=blue>类加载机制</font>](#font-colorblue%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6font)
-            - [类的生命周期](#%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-            - [类加载的过程](#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B)
-            - [**类加载器**](#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8)
-            - [**双亲委派模型**](#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B)
-        - [JVM 常用命令](#jvm-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
-    - [<font color=blue>JAVA 锁</font>](#font-colorbluejava-%E9%94%81font)
-        - [JAVA 对象监视器（ObjectMonitor）](#java-%E5%AF%B9%E8%B1%A1%E7%9B%91%E8%A7%86%E5%99%A8objectmonitor)
-            - [**ObjectMonitor 主要组成：**](#objectmonitor-%E4%B8%BB%E8%A6%81%E7%BB%84%E6%88%90)
-            - [**ObjectMonitor 实现原理：**](#objectmonitor-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86)
-        - [happens-before](#happens-before)
-        - [指令重排序](#%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%BA%8F)
-        - [内存屏障（Memory Barrier ）](#%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9Cmemory-barrier-)
-        - [as-if-serial](#as-if-serial)
-        - [强引用、软引用、弱引用、虚引用](#%E5%BC%BA%E5%BC%95%E7%94%A8%E8%BD%AF%E5%BC%95%E7%94%A8%E5%BC%B1%E5%BC%95%E7%94%A8%E8%99%9A%E5%BC%95%E7%94%A8)
-        - [ThreadLocal](#threadlocal)
-        - [Unsafe](#unsafe)
-        - [CAS（对比交换）](#cas%E5%AF%B9%E6%AF%94%E4%BA%A4%E6%8D%A2)
-        - [CAS 的 ABA 问题](#cas-%E7%9A%84-aba-%E9%97%AE%E9%A2%98)
-        - [乐观锁、悲观锁](#%E4%B9%90%E8%A7%82%E9%94%81%E6%82%B2%E8%A7%82%E9%94%81)
-        - [自旋锁、适应性自旋锁](#%E8%87%AA%E6%97%8B%E9%94%81%E9%80%82%E5%BA%94%E6%80%A7%E8%87%AA%E6%97%8B%E9%94%81)
-        - [无锁、偏向锁、轻量级锁、重量级锁](#%E6%97%A0%E9%94%81%E5%81%8F%E5%90%91%E9%94%81%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81)
-        - [公平锁、非公平锁](#%E5%85%AC%E5%B9%B3%E9%94%81%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81)
-        - [可重入锁、非可重入锁](#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81)
-        - [共享锁、排他锁](#%E5%85%B1%E4%BA%AB%E9%94%81%E6%8E%92%E4%BB%96%E9%94%81)
-        - [Synchronized](#synchronized)
-            - [作用](#%E4%BD%9C%E7%94%A8)
-            - [使用方式](#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F)
-            - [1.6 之前的原理（重量级锁）](#16-%E4%B9%8B%E5%89%8D%E7%9A%84%E5%8E%9F%E7%90%86%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81)
-            - [1.6 之后的优化](#16-%E4%B9%8B%E5%90%8E%E7%9A%84%E4%BC%98%E5%8C%96)
-                - [**锁升级：**](#%E9%94%81%E5%8D%87%E7%BA%A7)
-                - [**锁优化**](#%E9%94%81%E4%BC%98%E5%8C%96)
-        - [AQS（AbstractQueuedSynchonizer）](#aqsabstractqueuedsynchonizer)
-        - [可重入锁（ReentrantLock）](#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81reentrantlock)
-        - [非公平可重入锁-获取锁的原理](#%E9%9D%9E%E5%85%AC%E5%B9%B3%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81-%E8%8E%B7%E5%8F%96%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86)
-        - [公平可重入锁的获取区别](#%E5%85%AC%E5%B9%B3%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8C%BA%E5%88%AB)
-        - [释放锁的原理](#%E9%87%8A%E6%94%BE%E9%94%81%E7%9A%84%E5%8E%9F%E7%90%86)
-        - [ReentrantLock 的等待/通知机制](#reentrantlock-%E7%9A%84%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6)
-        - [非可重入锁（NonReentrantLock）](#%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81nonreentrantlock)
-        - [死锁](#%E6%AD%BB%E9%94%81)
-            - [形成死锁的必要条件](#%E5%BD%A2%E6%88%90%E6%AD%BB%E9%94%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6)
-            - [阻止死锁发生的方式](#%E9%98%BB%E6%AD%A2%E6%AD%BB%E9%94%81%E5%8F%91%E7%94%9F%E7%9A%84%E6%96%B9%E5%BC%8F)
-            - [常见的死锁](#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%AD%BB%E9%94%81)
-            - [死锁查看方式](#%E6%AD%BB%E9%94%81%E6%9F%A5%E7%9C%8B%E6%96%B9%E5%BC%8F)
-            - [经典死锁代码](#%E7%BB%8F%E5%85%B8%E6%AD%BB%E9%94%81%E4%BB%A3%E7%A0%81)
-    - [线程](#%E7%BA%BF%E7%A8%8B)
-        - [线程的状态](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81)
-        - [线程的生命周期](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-        - [如何结束一个线程？](#%E5%A6%82%E4%BD%95%E7%BB%93%E6%9D%9F%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B)
-        - [Object 的等待/通知（wait/notify）机制](#object-%E7%9A%84%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5waitnotify%E6%9C%BA%E5%88%B6)
-            - [wait](#wait)
-            - [notify](#notify)
-            - [notifyAll](#notifyall)
-            - [wait/notify 代码示例](#waitnotify-%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B)
-        - [Thread.sleep、Object.wait、Condition.await、LockSupport.park的区别](#threadsleepobjectwaitconditionawaitlocksupportpark%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Thread.sleep和 Object.wait的区别](#threadsleep%E5%92%8C-objectwait%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Thread.sleep和 Condition.await的区别](#threadsleep%E5%92%8C-conditionawait%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Thread.sleep和 LockSupport.park的区别](#threadsleep%E5%92%8C-locksupportpark%E7%9A%84%E5%8C%BA%E5%88%AB)
-            - [Object.wait和 LockSupport.park的区别](#objectwait%E5%92%8C-locksupportpark%E7%9A%84%E5%8C%BA%E5%88%AB)
-        - [线程同步方法](#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95)
-    - [JUC&Unsafe](#jucunsafe)
-        - [LockSupport](#locksupport)
-        - [AQS（AbstractQueuedSynchonizer）（见上文）](#aqsabstractqueuedsynchonizer%E8%A7%81%E4%B8%8A%E6%96%87)
-        - [ReentrantLock（见上文）](#reentrantlock%E8%A7%81%E4%B8%8A%E6%96%87)
-        - [ReentrantReadWriteLock](#reentrantreadwritelock)
-        - [StampedLock](#stampedlock)
-        - [CountDownLatch（倒数计数器）](#countdownlatch%E5%80%92%E6%95%B0%E8%AE%A1%E6%95%B0%E5%99%A8)
-        - [CyclicBarrier（循环屏障）](#cyclicbarrier%E5%BE%AA%E7%8E%AF%E5%B1%8F%E9%9A%9C)
-        - [Phaser（阶段）](#phaser%E9%98%B6%E6%AE%B5)
-        - [Semaphore（信号量）](#semaphore%E4%BF%A1%E5%8F%B7%E9%87%8F)
-        - [Exchanger（线程数据交换器）](#exchanger%E7%BA%BF%E7%A8%8B%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E5%99%A8)
-        - [BlockingQueue](#blockingqueue)
-        - [BlockingDeque](#blockingdeque)
-        - [ArrayBlockingQueue（数组阻塞队列）](#arrayblockingqueue%E6%95%B0%E7%BB%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97)
-        - [LinkedBlockingQueue（链式阻塞队列）](#linkedblockingqueue%E9%93%BE%E5%BC%8F%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97)
-        - [LinkedBlockingDeque（链式阻塞双端队列）](#linkedblockingdeque%E9%93%BE%E5%BC%8F%E9%98%BB%E5%A1%9E%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97)
-        - [ConcurrentLinkedQueue](#concurrentlinkedqueue)
-        - [ConcurrentLinkedDeque](#concurrentlinkeddeque)
-        - [DelayQueue（延迟队列）](#delayqueue%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97)
-        - [PriorityBlockingQueue（具有优先级的阻塞队列）](#priorityblockingqueue%E5%85%B7%E6%9C%89%E4%BC%98%E5%85%88%E7%BA%A7%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97)
-        - [SynchronousQueue（同步队列）](#synchronousqueue%E5%90%8C%E6%AD%A5%E9%98%9F%E5%88%97)
-        - [LinkedTransferQueue](#linkedtransferqueue)
-        - [CopyOnWriteArrayList](#copyonwritearraylist)
-        - [CopyOnWriteArraySet](#copyonwritearrayset)
-        - [ConcurrentSkipListSet](#concurrentskiplistset)
-        - [ConcurrentHashMap](#concurrenthashmap)
-        - [ConcurrentSkipListMap](#concurrentskiplistmap)
-        - [Atomic 原子类](#atomic-%E5%8E%9F%E5%AD%90%E7%B1%BB)
-            - [AtomicInteger](#atomicinteger)
-        - [ForkJoinPool](#forkjoinpool)
-        - [Executors](#executors)
-        - [FutureTask](#futuretask)
-        - [Future](#future)
-        - [CompletableFuture](#completablefuture)
-        - [ThreadPoolExecutor](#threadpoolexecutor)
-            - [线程池执行流程](#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B)
-            - [系统提供的线程池类型](#%E7%B3%BB%E7%BB%9F%E6%8F%90%E4%BE%9B%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%B1%BB%E5%9E%8B)
-            - [拒绝策略](#%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5)
-            - [关闭线程池](#%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0)
-            - [execute、submit](#executesubmit)
-            - [线程池的 CAS、ReentrantLock](#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84-casreentrantlock)
-        - [ScheduledThreadExecutor](#scheduledthreadexecutor)
-
-<!-- /TOC -->
 ## 1. <font color=blue>位运算</font>
 
 - 计算机中数据都以二进制存储，其中整数占 4byte，即 32bit
@@ -913,24 +697,24 @@ ASM 是一个轻量级 java 字节码操作框架，直接涉及到 JVM 底层�
 2. put 和 get 并发时，如果正好需要扩容，因为扩容会将旧 hash 表中元素 rehash 到新的 hash 表中，所以可能导致 get 为 null
 3. JDK1.7 的 HashMap，并发 PUT 可能会造成循环链表，导致 get 不存在的 key 时会出现死循环
 
-##### 13.11.1.5. Hashtable
+#### 13.11.2. Hashtable
 
 - Hashtable 是 JDK1.0 新增的，是遗留类，项目中不应该去使用它，实现原理和 HashMap 类似，也是通过数组+链表的方式实现，但它是线程安全的，因为所有读写方法都实现了 synchronized 锁
 
-##### 13.11.1.6. LinkedHashMap
+#### 13.11.3. LinkedHashMap
 
 - LinkedHashMap 是 HashMap 的直接子类，二者唯一的区别是 LinkedHashMap 在 HashMap 的基础上，在 Entry 数组之外，采用双向链表的形式将所有 entry 连接起来，这样是为保证元素的迭代顺序跟插入顺序相同，该双向链表的迭代顺序就是 entry 的插入顺序
 - 写入数据时，会先执行一次查询，数据如果已存在则直接返回，数据不存在时，按照 HashMap 的方式将数据插入到对应链表中，并将数据插入到双向链表的尾部
 - 迭代 LinkedHashMap 时，不需要像 HashMap 那样遍历整个 table，而只需要直接遍历 header 指向的双向链表即可，也就是说 LinkedHashMap 的迭代时间就只跟 entry 的个数相关，而跟 table 的大小无关，所以当 Map 的数据量不大，而容量很大时，LinkedHashMap 的遍历速度比 HashMap 快
 - **LinkedHashMap 提供了 removeEldestEntry 方法，该方法的作用是告诉 Map 是否要删除最早插入的 Entry，如果该方法返回 True，那么最早插入的元素会被删除，在每次插入新元素的之后 LinkedHashMap 会自动询问 removeEldestEntry()是否要删除最老的元素，因此可以通过重载该方法，来实现 LRU 算法（固定大小的 FIFO 策略的缓存）**
 
-##### 13.11.1.7. TreeMap
+#### 13.11.4. TreeMap
 
 - TreeMap 底层通过红黑树(Red-Black tree)实现，也就意味着 containsKey(), get(), put(), remove()都有着 O(logn)的时间复杂度
 - TreeMap 不允许放入 null 值
 - TreeMap 中的数据是自动排好序的，TreeMap 会按 key 升序排序，元素在插入 TreeMap 时 compareTo()方法要被调用，所以 TreeMap 中的元素要实现 Comparable 接口
 
-##### 13.11.1.8. ConcurrentHashMap
+#### 13.11.5. ConcurrentHashMap
 
 - **JDK1.5~1.7 版本（分段锁）：**
 
@@ -948,11 +732,11 @@ ASM 是一个轻量级 java 字节码操作框架，直接涉及到 JVM 底层�
   - 读取数据时，先根据 Key 计算 hash 值，找到数组中的对应链表，再根据头结点判断是链表或者红黑树或者正在扩容，如果是链表，则遍历得到结果，如果是红黑树，执行查找得到结果，如果正在扩容，会等待取到锁后再读取数据
   - **扩容机制：数组每次都是双倍扩容，将原来的 tab 数组的元素迁移到新的 nextTab 数组中，使用多线程，每个线程可以分到 16 个链表，各自处理，不会互相影响，每个链表根据 hash%length 排序后拆分为高位和低位 2 个链表，然后分配到新数组中，如果有新的线程 put 数据，会先帮助完成扩容，再 put 数据**
 
-##### 13.11.1.9. ConcurrentSkipListMap
+#### 13.11.6. ConcurrentSkipListMap
 
 - ConcurrentSkipListMap 是一个内部使用跳跃表，并且支持排序和并发的一个 Map，是线程安全的
 
-##### 13.11.1.10. HashMap 和 Hashtable 区别
+#### 13.11.7. HashMap 和 Hashtable 区别
 
 1. **线程安全**：Hashtable 是线程安全，HashMap 是非线程安全。HashMap 的性能会高于 Hashtable，Hashtable 的所有方法都实现了 synchronize 锁
 2. **是否可以使用 null 作为 key**：HashMap 允许将 null 作为一个 entry 的 key 或者 value，而 Hashtable 不允许
@@ -962,7 +746,7 @@ ASM 是一个轻量级 java 字节码操作框架，直接涉及到 JVM 底层�
 6. 遍历方式：都使用了 Iterator，但 Hashtable 还使用了 Enumeration 的方式 且用 Enumeration 时不支持 fail-fast（遍历过程中如果元素被修改会导致遍历失败，可以用 Iterator 的 remove 方法避免这种情况）
 7. key 规则：HashTable 直接使用对象的 hashCode，HashMap 重新计算 hash 值
 
-##### 13.11.1.11. HashMap 和 ConcurrentHashMap 的区别
+#### 13.11.8. HashMap 和 ConcurrentHashMap 的区别
 
 - 都是使用桶数组（数组+链表）实现
 - 1.7 之前的 ConcurrentHashMap 对桶数组进行了分段，并且在每一个分段上都用 ReentrantLock 锁进行了保护
